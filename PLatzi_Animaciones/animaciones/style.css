@@ -1,0 +1,55 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #FF0042;
+}
+
+.container{
+    width: 100%;
+    border: 1px solid blue;
+}
+
+.container:hover .cuadrado{
+
+
+}
+
+.cuadrado{
+    width: 250px;
+    height: 250px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: rgba(36, 37, 38, 0.08) 0px 6px 15px 0px;
+    animation-name: cuadrado, rebote; /* Nombre de la animacion para usarla en @keyframes */
+    animation-duration: 2s, .3s; /* Duracion de la animacion */
+    /* animation-delay: 1s; Cuando iniciara */
+    animation-iteration-count: infinite; /* Cantidad de veces que se repetira */
+    /* animation-timing-function: linear; Suavizado de la animacion */
+    /* animation-timing-function: steps(10); */
+    /* animation-timing-function: cubic-bezier(.59,-0.42,.52,1.49); */
+    animation-timing-function: linear, ease-in;
+    animation-direction: alternate; /* Direccion de la animacion */
+    position: relative;
+}
+
+@keyframes cuadrado{
+    0% {
+        left: 0;
+    }
+
+    100% {
+        left: calc(100% - 250px);
+    }
+}
+
+@keyframes rebote{
+    from{
+        transform: translateY(0);
+    }
+
+    to{
+        transform: translateY(100px) scale(1, .8);
+    }
+}

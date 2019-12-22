@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cubo</title>
+
+    <style>
+        body{
+            margin: 0;
+            background: #333;
+            display: flex;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container{
+            margin: auto;
+            perspective: 5000px;
+        }
+
+        .cubo{
+            transform-style: preserve-3d;
+            height: 200px;
+            width: 200px;
+            position: relative;
+            animation-name: girar;
+            animation-iteration-count: infinite;
+            animation-duration: 5s;
+            animation-timing-function: linear;
+            animation-fill-mode: forwards;
+
+        }
+
+
+        @keyframes girar {
+            from {
+                transform: rotateX(0deg) rotateY(25deg);
+                
+            }
+
+            to{
+                transform: rotateX(360deg) rotateY(25deg);
+            }
+        }
+
+        @keyframes mover {
+            from {
+                transform:  translateX(0px);
+            }
+            to{
+                transform: translateX(200px);
+            }
+        }
+
+        @keyframes transformaciones{
+            from{
+                transform: rotate3d(1,1,1, 0deg);
+            }
+            to{
+                transform: rotate3d(1,1,1, 360deg);
+            }
+        }
+
+        @keyframes colores{
+            0%{
+                background: #fff9e0;
+            }
+            
+            25%{
+                background: #f1c550;
+            }
+
+            75%{
+                background: #ff6600;
+            }
+
+            100%{
+                background: #ce2525;
+            }
+        }
+
+        @keyframes romper{
+            0%{
+                opacity: 0;
+            }
+            
+            25%{
+                opacity: .25;
+            }
+
+            75%{
+                opacity: .75;
+            }
+
+            100%{
+                opacity: 1;
+            }
+        }
+
+        .cubo:hover{
+            animation-play-state: paused;
+        }
+
+        .cara{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid blue;
+            /*
+            background-image: url("doge.jpg");
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            */
+            animation-name: colores ;
+            animation-iteration-count: infinite;
+            animation-duration: 3s;
+            animation-direction: alternate;
+            animation-timing-function: ease-in-out;
+        }
+
+        
+        #uno{
+            transform: translateZ(100px) ; /*rotateX(-40deg) rotateY(45deg);*/
+        }
+        
+        
+        #dos{
+            
+            transform: translateX(100px) rotateY(90deg); /* rotateX(-40deg) rotateY(45deg);*/
+        }
+
+        #tres{
+            
+            transform: translateX(-100px) rotateY(90deg);
+        }
+
+        #cuatro{
+            transform: translateY(100px) rotateX(90deg);
+        }
+
+        #cinco{
+            transform: translateY(-100px) rotateX(90deg);
+        }
+
+        #seis{
+            transform: translateZ(-100px);
+        }
+        
+        /*
+        #tres{
+            border: 3px solid #ff6600;
+            transform: translateZ(-100px) rotateX(-40deg) rotateY(45deg);
+        }
+
+
+        #cuatro{
+            border: 3px solid #ff6600;
+            transform: translateX(-100px) rotateY(90deg) rotateX(-40deg) rotateY(45deg);
+        }
+
+        #cinco{
+            border: 3px solid #ff6600;
+            transform: translateY(-100px) rotateX(90deg) rotateX(-40deg) rotateY(45deg);
+
+        }
+
+        #seis{
+            border: 3px solid #ff6600;
+             transform: translateY(100px) rotateX(-90deg) rotateX(-40deg) rotateY(45deg);
+        }
+*/
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cubo" id="cubo">
+            <div class="cara" id="uno"></div>
+            <div class="cara" id="dos"></div>
+            <div class="cara" id="tres"></div>
+            <div class="cara" id="cuatro"></div>
+            <div class="cara" id="cinco"></div>
+            <div class="cara" id="seis"></div>
+        </div>
+    </div>
+
+    <script>
+        /*
+        const $cara1 = document.getElementById('uno');
+            const $cara2 = document.getElementById('dos');
+            const $cara3 = document.getElementById('tres');
+            const $cara4 = document.getElementById('cuatro');
+            const $cara5 = document.getElementById('cinco');
+            const $cara6 = document.getElementById('seis');
+
+            $cara1.addEventListener('animationend', (event) => {
+                if (event.animationName === 'colores') {
+                    console.log('Hola')
+                    $cara1.style.animationName = 'romper';
+                    $cara1.style.animationDuration = '3s';
+                    $cara2.style.animationName = 'romper';
+                    $cara2.style.animationDuration = '3s';
+                    $cara3.style.animationName = 'romper';
+                    $cara3.style.animationDuration = '3s';
+                    $cara4.style.animationName = 'romper';
+                    $cara4.style.animationDuration = '3s';
+                    $cara5.style.animationName = 'romper';
+                    $cara5.style.animationDuration = '3s';
+                    $cara6.style.animationName = 'romper';
+                    $cara6.style.animationDuration = '3s';
+                } else if (event.animationName === 'romper') {
+                    console.log('Mundo')
+                    $cara1.style.animationName = 'colores';
+                    $cara1.style.animationDuration = '3s';
+                    $cara2.style.animationName = 'colores';
+                    $cara2.style.animationDuration = '3s';
+                    $cara3.style.animationName = 'colores';
+                    $cara3.style.animationDuration = '3s';
+                    $cara4.style.animationName = 'colores';
+                    $cara4.style.animationDuration = '3s';
+                    $cara5.style.animationName = 'colores';
+                    $cara5.style.animationDuration = '3s';
+                    $cara6.style.animationName = 'colores';
+                    $cara6.style.animationDuration = '3s';
+                }
+                */
+    </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+@font-face {
+    font-family: "MiFuente";
+    font-weight: bold;
+    src: url("GothamRounded-Bold.otf");
+}
+
+h1 {
+    font-family: "MiFuente";
+}

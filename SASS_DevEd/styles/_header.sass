@@ -1,0 +1,18 @@
+
+@mixin flexCenter($direction, $back)
+    height: 100vh
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: $direction
+    background: $back
+
+header
+    @include flexCenter(column, red)
+    color: $textColor
+    button
+        background: $primaryBtn
+        &:hover
+            background: red
+        &::after
+            content: "AFTER"
