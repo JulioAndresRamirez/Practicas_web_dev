@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: system-ui;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             background: #f0f3f7;
             color: rgba(0, 0, 0, .6);
             margin: 0;
@@ -85,10 +85,11 @@
 </head>
 
 <body>
-    <form action="" id="form">
+    <form action="" id="form" enctype="multipart/form-data">
         <label> Completa tu informacion </label>
         <input type="text" name="username" placeholder="Nombre de usuario">
         <input type="file" name="image" id="file">
+        <input type="file" name="excel" id="excel">
         <div class="preview">
             <p id="username">
 
@@ -98,14 +99,20 @@
         </div>
     </form>
 
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js">
+    </script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     <script>
         const $form = document.querySelector("#form")
         const $file = document.querySelector("#file")
+        const $fileExcel = document.querySelector("#excel")
         const $username = document.querySelector("#username")
         const $img = document.querySelector("#image")
 
         function renderImage(formData) {
             const file = formData.get('image')
+            console.log(file.name)
             const image = URL.createObjectURL(file)
             $img.setAttribute('src', image)
         }
@@ -126,8 +133,86 @@
             renderUsername(formData)
             renderImage(formData)
             //debugger
+
+
+            /* axios.post('http://localhost:8000/api/Asistentes/'){
+
+            } */
         })
 
+        // SheetJs
+
+        var database_upload;
+        let values = ["identificador", "nombre", "apellido", "email", "telefono", "grupo", "otro_grupo", "validador", "evento"]
+        let verify = true
+
+        function handleFile(e) {
+            var files = e.target.files, f = files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var data = new Uint8Array(e.target.result);
+                var workbook = XLSX.read(data, { type: 'array' });
+                console.log(workbook)
+                /* DO SOMETHING WITH workbook HERE */
+
+                let first_sheet_name = workbook.SheetNames[0];
+                let worksheet = workbook.Sheets[first_sheet_name];
+                //let address_of_cell = "A1"
+                //let desired_cell = worksheet[address_of_cell];
+                //let desired_value = (desired_cell ? desired_cell.v : undefined);
+
+                //Convierto a Json
+                database_upload = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
+
+                console.log(database_upload)
+
+
+                for (let index = 0; index < values.length; index++) {
+                    let element = values[index];
+                    verify = true;
+
+                    if (database_upload[0].indexOf(element) == -1) {
+                        verify = false;
+                        break;
+                    } else {
+                        console.log("Todo bien " + index)
+                    }
+                }
+
+                console.log("El valor de Verify es " + verify)
+
+                if (verify) {
+                    for (let index = 1; index < database_upload.length; index++) {
+                        let valor = database_upload[index];
+                        var jsonArg1 = new Object();
+                        jsonArg1.num1 = valor[0]
+                        jsonArg1.num2 = valor[1]
+                        console.log(jsonArg1)
+
+                    }
+                } else {
+                    console.log("El archivo no cumple con la verificacion.")
+                }
+
+            };
+            reader.readAsArrayBuffer(f);
+        }
+
+        $fileExcel.addEventListener('change', handleFile, false);
+
+        /*
+        {
+    "identificador": "",
+    "nombre": "",
+    "apellido": "",
+    "email": "",
+    "telefono": null,
+    "grupo": null,
+    "otro_grupo": "",
+    "validador": false,
+    "evento": null
+}
+*/
 
     </script>
 </body>
